@@ -14,31 +14,32 @@ module.exports = {
                         }),
                 100);  //TODO can't with Promise =/
         });
-    }, null, true, 'America/Los_Angeles')
-};
+    }, null, true, 'America/Los_Angeles'),
 
-const getCurrentMedianHistoryPrice = (data) => {
-    const latestInstances = data.slice(data.length - 12, data.length);
+    getCurrentMedianHistoryPrice: (data) => {
+        const latestInstances = data.slice(data.length - 12, data.length);
 
-    const medianHistory = latestInstances.reduce((acc, current) => {
+        const medianHistory = latestInstances.reduce((acc, current) => {
 
-        const currentBase = current.avrBase || current.base.amount;
-        const accBase = acc.avrBase || acc.base.amount;
+            const currentBase = current.avrBase || current.base.amount;
+            const accBase = acc.avrBase || acc.base.amount;
 
-        const currentQuote = current.avrQuote || current.quote.amount;
-        const accQuote = acc.avrQuote || acc.quote.amount;
+            const currentQuote = current.avrQuote || current.quote.amount;
+            const accQuote = acc.avrQuote || acc.quote.amount;
 
-        return {
-            avrBase: accBase + currentBase,
-            avrQuote: accQuote + currentQuote
-        }
+            return {
+                avrBase: accBase + currentBase,
+                avrQuote: accQuote + currentQuote
+            }
 
-    }, {
-        base: { amount: 0 },
-        quote: { amount: 0 }
-    });
-    medianHistory.avrBase = medianHistory.avrBase / 12;
-    medianHistory.avrQuote = medianHistory.avrQuote / 12;
+        }, {
+            base: { amount: 0 },
+            quote: { amount: 0 }
+        });
 
-    return medianHistory;
+        medianHistory.avrBase = medianHistory.avrBase / 12;
+        medianHistory.avrQuote = medianHistory.avrQuote / 12;
+
+        return medianHistory;
+    },
 };

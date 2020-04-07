@@ -5,13 +5,7 @@ const app = express();
 const server = http.createServer(app);
 
 const mongo = require('./server/mongo');
-const {job} = require('./server/cron');
-
-app.use('/server', express.static(__dirname + "/server"));
-
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'));
-});
+const { job } = require('./server/cron');
 
 mongo.connect();
 server.listen(process.env.PORT || 4000, () => {
